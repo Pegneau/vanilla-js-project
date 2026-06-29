@@ -75,6 +75,40 @@ product-item img {
     display: block;
 }
 
+order-page {
+    display: block;
+}
+
+cart-item {
+    display: block;
+}
+
+cart-item li {
+    display: flex;
+    border-bottom: 1px solid var(--color5);
+}
+
+cart-item .qty {
+    color: var(--color4);
+    flex: 1;
+}
+
+cart-item .name {
+    font-weight: bold;
+    color: var(--secondaryColor);
+    flex: 5;
+}
+
+cart-item .price {
+    color: var(--secondaryColor);
+    flex: 1;
+    text-align: right;
+}
+
+cart-item a {
+    text-decoration: none;
+}
+
 #badge {
     padding: 4px;
     background-color: red;

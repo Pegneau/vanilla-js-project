@@ -9,7 +9,7 @@ export default class OrderPage extends HTMLElement {
     this.root.appendChild(section);
 
     async function loadCSS() {
-      const request = await fetch("/components/OrderPage.css");
+      const request = await fetch(new URL("./OrderPage.css", import.meta.url));
       styles.textContent = await request.text();
     }
     loadCSS();
@@ -29,31 +29,30 @@ export default class OrderPage extends HTMLElement {
           <p class="empty">Your order is empty</p>
       `;
     } else {
-      let html = `
+      let total = 0;
+      section.innerHTML = `
           <h2>Your Order</h2>
-          <ul>
-          </ul>
+          <ul></ul>
       `;
-      section.innerHTML = html;
+      const ul = section.querySelector("ul");
+
+      for (let prodInCart of app.store.cart) {
+        const item = document.createElement("cart-item");
+        item.dataset.item = JSON.stringify(prodInCart);
+        ul.appendChild(item);
+        total += prodInCart.quantity * prodInCart.product.price;
+      }
+
+      const totalLi = document.createElement("li");
+      totalLi.innerHTML = `
+            <p class='total'>Total</p>
+            <p class='price-total'>$${total.toFixed(2)}</p>
+      `;
+      ul.appendChild(totalLi);
 
       const template = document.getElementById("order-form-template");
       const content = template.content.cloneNode(true);
       section.appendChild(content);
-
-      let total = 0;
-      for (let prodInCart of app.store.cart) {
-        const item = document.createElement("cart-item");
-        item.dataset.item = JSON.stringify(prodInCart);
-        this.root.querySelector("ul").appendChild(item);
-
-        total += prodInCart.quantity * prodInCart.product.price;
-      }
-      this.root.querySelector("ul").innerHTML += `
-            <li>
-                <p class='total'>Total</p>
-                <p class='price-total'>$${total.toFixed(2)}</p>
-            </li>                
-        `;
     }
   }
 }
