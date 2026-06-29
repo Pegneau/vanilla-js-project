@@ -66,6 +66,15 @@ section.page {
     display: none;
 }
 
+product-item {
+    display: block;
+}
+
+product-item img {
+    width: 100%;
+    display: block;
+}
+
 #badge {
     padding: 4px;
     background-color: red;
